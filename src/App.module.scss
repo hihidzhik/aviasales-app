@@ -1,0 +1,41 @@
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f3f7fa;
+  min-height: 100vh;
+  gap: 40px;
+}
+
+.contentLayout {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -0px;
+  z-index: 1;
+  position: relative;
+}
+
+.airplaneIcon {
+  width: 100%;
+  padding-top: 50px;
+}
