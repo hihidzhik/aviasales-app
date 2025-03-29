@@ -45,34 +45,24 @@ const filtersSlice = createSlice({
     toggleFilter: (state, action) => {
       const stop = action.payload;
 
-      state.filters[stop] = !state.filters[stop];
+      if (stop === 'all') {
+        const newValue = !state.filters.all;
+        state.filters.all = newValue;
 
-      const activeStops = [0, 1, 2, 3].filter((s) => state.filters[s]);
+        [0, 1, 2, 3].forEach((filter) => {
+          state.filters[filter] = newValue;
+        });
+      } else {
+        state.filters[stop] = !state.filters[stop];
+        state.filters.all = [0, 1, 2, 3].every((filter) => state.filters[filter]);
+      }
 
-      state.filters.all = activeStops.length === 4;
-
-      state.stopsFilter = activeStops;
+      state.stopsFilter = [0, 1, 2, 3].filter((s) => state.filters[s]);
 
       state.filteredTickets = state.allTickets.filter((ticket) =>
           ticket.segments.every((segment) =>
-              state.stopsFilter.includes(segment.stops.length),
-          ),
-      );
-    },
-    setAllFilters: (state, action) => {
-      const value = action.payload;
-      state.filters.all = value;
-
-      state.filters[0] = value;
-      state.filters[1] = value;
-      state.filters[2] = value;
-      state.filters[3] = value;
-
-      state.stopsFilter = value ? [0, 1, 2, 3] : [];
-      state.filteredTickets = state.allTickets.filter((ticket) =>
-          ticket.segments.every((segment) =>
-              state.stopsFilter.includes(segment.stops.length),
-          ),
+              state.stopsFilter.includes(segment.stops.length)
+          )
       );
     },
   },
@@ -85,7 +75,6 @@ export const {
   increaseVisibleCount,
   setError,
   setLoading,
-  setAllFilters,
 } = filtersSlice.actions;
 
 export const fetchTickets = () => async (dispatch) => {

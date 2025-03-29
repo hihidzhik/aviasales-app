@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Filters.module.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleFilter, setAllFilters } from "../../store/reducers/filtersSlice";
+import { toggleFilter } from "../../store/reducers/filtersSlice";
 
 const filterOptions = [
   { key: "all", label: "Все" },
@@ -16,15 +16,7 @@ function Filters() {
   const filters = useSelector((state) => state.filters.filters);
 
   const handleChange = (key) => {
-    if (key === "all") {
-      dispatch(setAllFilters(!filters.all));
-    } else {
-      dispatch(toggleFilter(key));
-
-      if (filters.all && filters[key]) {
-        dispatch(setAllFilters(false));
-      }
-    }
+    dispatch(toggleFilter(key));
   };
 
   return (
